@@ -1,4 +1,4 @@
-// Fertige Fibonacci-Liste (erste 100 Werte)
+// Fertige Fibonacci-Liste (1–100)
 const fiboList = [
     1, 1, 2, 3, 5, 8, 13, 21, 34, 55,
     89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765,
@@ -12,58 +12,40 @@ const fiboList = [
     4660046610375530309, 7540113804746346429, 12200160415121876738, 19740274219868223167, 31940434634990099905, 51680708854858323072, 83621143489848422977, 135301852344706746049, 218922995834555169026, 354224848179261915075
 ];
 
-// Startwerte
 let currentMonth = 1;
 
-// Initialisierung
-function initSimulator() {
-    showMonth(currentMonth);
-    showPairsInfo(fiboList[currentMonth - 1]);
-    showRabbitPairs(fiboList[currentMonth - 1]);
-}
+// Elemente holen
+const monthSpan = document.getElementById("month");
+const hasenDiv = document.getElementById("hasen");
+const btn = document.getElementById("MonatBtn");
 
-// Beim Button-Klick
-function handleNextMonth() {
+// Startzustand anzeigen
+updateDisplay();
+
+btn.addEventListener("click", () => {
     currentMonth++;
 
-    // Falls wir über 100 hinausgehen → nicht abstürzen
     if (currentMonth > fiboList.length) {
         alert("Maximal 100 Monate erreicht!");
         currentMonth = fiboList.length;
     }
 
-    const pairs = fiboList[currentMonth - 1];
+    updateDisplay();
+});
 
-    showMonth(currentMonth);
-    showPairsInfo(pairs);
-    showRabbitPairs(pairs);
-}
+function updateDisplay() {
+    const amount = fiboList[currentMonth - 1];
 
-// Anzeigen des Monats
-function showMonth(month) {
-    document.getElementById("month-display").textContent = "Monat: " + month;
-}
+    // Monat setzen
+    monthSpan.textContent = currentMonth;
 
-// Anzeigen der Paare
-function showPairsInfo(pairs) {
-    document.getElementById("pairs-display").textContent = "Hasen-Paare: " + pairs;
-}
+    // Hasen neu erzeugen
+    hasenDiv.innerHTML = "";
 
-// Hasen anzeigen
-function showRabbitPairs(count) {
-    const container = document.getElementById("rabbit-container");
-    container.innerHTML = "";
-
-    for (let i = 0; i < count; i++) {
-        const pair = document.createElement("div");
-        pair.className = "rabbit-pair";
-        pair.textContent = "🐇🐇";
-        container.appendChild(pair);
+    for (let i = 0; i < amount; i++) {
+        const hase = document.createElement("div");
+        hase.className = "hase";
+        hase.textContent = "🐇";
+        hasenDiv.appendChild(hase);
     }
 }
-
-// Seite starten
-window.addEventListener("DOMContentLoaded", () => {
-    initSimulator();
-    document.getElementById("next-month-btn").addEventListener("click", handleNextMonth);
-});
